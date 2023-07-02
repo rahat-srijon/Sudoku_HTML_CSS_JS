@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku</title>
+    <link rel="stylesheet" href="sudoku.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+</head>
+<body>
+    <div id="page">
+        <div id="board">
+            <div id="thirds">
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+            </div>
+            <div id="thirds">
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+            </div>
+            <div id="thirds">
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+            </div>
+            <div id="thirds">
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+            </div>
+            <div id="thirds">
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+            </div>
+            <div id="thirds">
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+            </div>
+            <div id="thirds">
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+            </div>
+            <div id="thirds">
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+            </div>
+            <div id="thirds">
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+                <div id="tile" class="number">0</div>
+            </div>
+        </div>
+        <div id="digits">
+            <div id="tile" class="choice">1</div>
+            <div id="tile" class="choice">2</div>
+            <div id="tile" class="choice">3</div>
+            <div id="tile" class="choice">4</div>
+            <div id="tile" class="choice">5</div>
+            <div id="tile" class="choice">6</div>
+            <div id="tile" class="choice">7</div>
+            <div id="tile" class="choice">8</div>
+            <div id="tile" class="choice">9</div>
+            <div id="tile" class="delete">X</div>
+        </div>
+        <div class="status">
+            AAAAAAAAAAAAAAAAAAAAAAAA
+        </div>
+        <div id="buttons">
+            <div id="button-tile" class="solve">Solve</div>
+            <div id="button-tile" class="clear">Clear</div>
+            <div id="button-tile" class="restart">Restart</div>
+            <div id="button-tile" class="level">Level 1</div>
+        </div>
+    </div>
+    <script src="sudoku.js"></script>
+</body>
+</html>
