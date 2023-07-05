@@ -10,6 +10,8 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Press Start 2P', cursive;
+  overflow-x: hidden;
+  overflow-y: hidden;
 }
 
 body {
@@ -25,6 +27,7 @@ body {
   width: 500px;
   height: auto;
   display: flex;
+  flex: 1 1 auto;
   justify-content: center;
   align-items: center;
   flex-direction: column;
@@ -158,13 +161,12 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  width: 100%;
+  width: 485px;
   height: 40px;
   border-radius: 5px;
   line-height: 25px;
   margin-top: 10px;
   margin-bottom: 5px;
-  margin-left: 15px;
   user-select: none;
   background-color: #FF7F00;
   font-size: 20px;
