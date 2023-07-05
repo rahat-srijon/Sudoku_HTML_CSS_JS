@@ -6,17 +6,45 @@ const clear = document.getElementsByClassName('clear')[0];
 const lvl = document.getElementsByClassName('level')[0];
 const restart = document.getElementsByClassName('restart')[0];
 const statusBar = document.getElementsByClassName('status')[0];
+const wrong = document.getElementsByClassName('wrong')[0];
+const time = document.getElementsByClassName('time')[0];
+const info = document.getElementById('info');
+const digits = document.getElementById('digits');
+const buttons = document.getElementById('buttons');
 
+let interval;
+let elapsedTime=0;
+let gameCount=1;
 let grid=Array(9).fill().map(()=>Array(9));
 let state=Array(9).fill().map(()=>Array(9));
 let cnt=0;
+let wrng=0;
 let selectedCell=null;
 let level=1;
-
+let win=false;
+let solveSelf=false;
 let board = Array(9).fill().map(()=>Array(9).fill(0));
 
 function getRandom(){
     return Math.floor(Math.random()*9);
+}
+
+function getTimeString(str){
+    let hrs=Number(str.substr(0,2));
+    let min=Number(str.substr(3,2));
+    let sec=Number(str.substr(6,2));
+    console.log(str,hrs,min,sec);
+    let ret="";
+    if(hrs)ret+=hrs+" hour";
+    if(hrs>1)ret+="s";
+    if(hrs&&(min||sec))ret+=" ";
+    if(min)ret+=min+" minute";
+    if(min>1)ret+="s";
+    if(sec&&(hrs&&min))ret+="<br>";
+    else if(sec&&(hrs||min))ret+=" ";
+    if(sec)ret+=sec+" second";
+    if(sec>1)ret+="s";
+    return ret;
 }
 
 function checkRow(i,c){
@@ -99,12 +127,12 @@ function backtrack(i,j){
 }
 
 function removeNonClues(level){
-    let count=34+5*level;
-    while(count>0){
+    let rem=34+5*level;
+    while(rem>0){
         let r=Math.floor(Math.random()*9);
         let c=Math.floor(Math.random()*9);
         board[r][c]=0;
-        count--;
+        rem--;
     }
 }
 
@@ -134,6 +162,51 @@ function removeClass(i,j){
     grid[i][j].classList.remove('fixed');
 }
 
+function statusBarUpdate(){
+    let invalid=false,incomplete=false,count=0;
+    for(let i=0;i<9;i++){
+        for(let j=0;j<9;j++){
+            if(state[i][j]&2)invalid=true;
+            if(board[i][j]==0){
+                incomplete=true;
+                count++;
+            }
+        }
+    }
+    if(invalid){
+        statusBar.style.backgroundColor='#FF355A';
+        statusBar.textContent="Invalid Placements";
+    }
+    else if(!incomplete){
+        
+        statusBar.style.height="100px";
+        info.style.height='0px';
+        info.style.opacity='0';
+        digits.style.height='0px';
+        digits.style.opacity='0';
+        buttons.style.height='100px';
+        buttons.style.gridTemplateColumns="0fr 0fr 1fr 1fr";
+        buttons.style.fontSize="18px";
+        solve.style.opacity='0';
+        clear.style.opacity='0';
+
+        win=true;
+        if(solveSelf){
+            statusBar.style.backgroundColor='#00D346';
+            statusBar.innerHTML="You solved taking <br>"+getTimeString(time.textContent)+"<br>with "+wrong.textContent+" wrong attempts";
+        }
+        else{
+            statusBar.style.backgroundColor='#476C8A';
+            statusBar.innerHTML="You gave up after <br>"+getTimeString(time.textContent)+"<br>with "+wrong.textContent+" wrong attempts";
+        }
+        stopStopwatch();
+    }
+    else{
+        statusBar.style.backgroundColor='#FF7F00';
+        statusBar.textContent=String(count)+" cells still empty";
+    }
+}
+
 function update(init){
     for(let i=0;i<9;i++){
         for(let j=0;j<9;j++){
@@ -153,28 +226,7 @@ function update(init){
             else if(state[i][j]==1)grid[i][j].classList.add('fixed');
         }
     }
-    let invalid=false,incomplete=false,count=0;
-    for(let i=0;i<9;i++){
-        for(let j=0;j<9;j++){
-            if(state[i][j]&2)invalid=true;
-            if(board[i][j]==0){
-                incomplete=true;
-                count++;
-            }
-        }
-    }
-    if(invalid){
-        statusBar.style.backgroundColor='#FF355A';
-        statusBar.textContent="Invalid Placements";
-    }
-    else if(!incomplete){
-        statusBar.style.backgroundColor='#00D346';
-        statusBar.textContent="The Board is Complete";
-    }
-    else{
-        statusBar.style.backgroundColor='#FF7F00';
-        statusBar.textContent=String(count)+" cells still empty";
-    }
+    statusBarUpdate();
 }
 
 function selectRow(i,c){
@@ -260,34 +312,55 @@ function placeNumber(digit){
     let [x,y]=selectedCell;
     board[x][y]=digit;
     update(0);
+    if(state[x][y]&2)wrng++;
+    wrong.textContent=wrng/gameCount;
 }
 
 function initCells(){
-    update(1);
     for(let i=0;i<9;i++){
         for(let j=0;j<9;j++){
             grid[i][j].addEventListener('click',()=>{
-                if(!(state[i][j]&1))select(i,j);
+                if(!win&&!(state[i][j]&1))select(i,j);
             });
         }
     }
     for(let i=0;i<9;i++){
         nums[i].addEventListener('click',()=>{
-            if(selectedCell!=null){
+            if(!win&&selectedCell!=null){
                 placeNumber(Number(nums[i].textContent));
             }
         });
     }
     del.addEventListener('click',()=>{
-        if(selectedCell!=null){
+        if(!win&&selectedCell!=null){
             removeSelected();
         }
     });
 }
 
 function initialize(){
+    resetStopwatch();
+    startStopwatch();
+    
+    statusBar.style.height="50px";
+    info.style.height='50px';
+    info.style.opacity='1';
+    digits.style.height='50px';
+    digits.style.opacity='1';
+    buttons.style.height='50px';
+    buttons.style.gridTemplateColumns="1fr 1fr 1fr 1fr";
+    buttons.style.fontSize="13px";
+    solve.style.opacity='1';
+    clear.style.opacity='1';
+    
+    solveSelf=true;
+    win=false;
+    wrng=0;
+    wrong.textContent=wrng;
+
     deselect();
     generateFullBoard(level);
+    update(1);
     initCells();
 }
 
@@ -321,10 +394,11 @@ function cleanBoard(){
 }
 
 clear.addEventListener('click',()=>{
-    cleanBoard();
+    if(!win)cleanBoard();
 });
 
 restart.addEventListener('click',()=>{
+    gameCount++;
     initialize();
 });
 
@@ -341,5 +415,42 @@ function sudokuSolver(){
 }
 
 solve.addEventListener('click',()=>{
-    sudokuSolver();
+    if(!win){
+        solveSelf=false;
+        sudokuSolver();
+    }
 });
+
+function updateTime(){
+    
+    let seconds=Math.floor(elapsedTime/1000);
+    let minutes=Math.floor(seconds/60);
+    let hours=Math.floor(minutes/60);
+
+    hours%=60;
+    minutes%=60;
+    seconds%=60;
+
+    hours=hours<10?'0'+hours:hours;
+    seconds=seconds<10?'0'+seconds:seconds;
+    minutes=minutes<10?'0'+minutes:minutes;
+
+    time.textContent=hours+":"+minutes+":"+seconds;
+}
+
+function startStopwatch(){
+    interval=setInterval(()=>{
+        elapsedTime+=1000;
+        updateTime();
+    },1000);
+}
+
+function stopStopwatch(){
+    clearInterval(interval);
+}
+
+function resetStopwatch(){
+    stopStopwatch();
+    elapsedTime=0;
+    updateTime();
+}
