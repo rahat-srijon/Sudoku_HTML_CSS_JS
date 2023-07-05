@@ -268,11 +268,10 @@ body {
 @media (max-width: 600px) {
   #page {
     width: 100%;
-    padding: 10px;
   }
 
   #board {
-    height: 450px;
+    height: 420px;
     max-height: none;
   }
 
@@ -295,7 +294,6 @@ body {
 
   #digits {
     height: 40px;
-    grid-template-columns: repeat(5, 1fr);
   }
 
   #buttons {
