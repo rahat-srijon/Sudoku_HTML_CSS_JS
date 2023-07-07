@@ -44,6 +44,7 @@ function getTimeString(str){
     else if(sec&&(hrs||min))ret+=" ";
     if(sec)ret+=sec+" second";
     if(sec>1)ret+="s";
+    if(ret.length==0)ret="0 seconds";
     return ret;
 }
 
@@ -193,11 +194,11 @@ function statusBarUpdate(){
         win=true;
         if(solveSelf){
             statusBar.style.backgroundColor='#00D346';
-            statusBar.innerHTML="You solved taking <br>"+getTimeString(time.textContent)+"<br>with "+wrong.textContent+" wrong attempts";
+            statusBar.innerHTML="You solved taking <br>"+getTimeString(time.textContent)+"<br>with "+wrong.textContent+" wrong guesses";
         }
         else{
             statusBar.style.backgroundColor='#476C8A';
-            statusBar.innerHTML="You gave up after <br>"+getTimeString(time.textContent)+"<br>with "+wrong.textContent+" wrong attempts";
+            statusBar.innerHTML="You gave up after <br>"+getTimeString(time.textContent)+"<br>with "+wrong.textContent+" wrong guesses";
         }
         stopStopwatch();
     }
